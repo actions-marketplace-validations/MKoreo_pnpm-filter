@@ -19,7 +19,8 @@ runs:
     with:
       version: 8
   - uses: actions/checkout@v3
-    token: ${{ inputs.PAT }}
+    with:
+      token: ${{ inputs.PAT }}
   - id: check-changed
     shell: bash
     run: if [[ $(pnpm --filter ...[master] exec pwd) =~ ${{inputs.appName}}$ ]]; then echo changed=True; else echo changed=False; fi >> "$GITHUB_OUTPUT"
