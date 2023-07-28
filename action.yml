@@ -29,5 +29,6 @@ runs:
     shell: bash
     run: |
       changedPaths=$(pnpm --filter ...[${{ github.event.pull_request.base.sha }}] exec pwd)
-      printf 'Project Changed:: %s\n' $changedPaths
+      printf 'Project Changed: %s\n' $changedPaths
+      if [[ ${changedPaths} =~ ${{inputs.appName}}[\s]{0,1} ]]; then echo "Project Changed!"; else echo "Project Unchanged!"; fi
       if [[ ${changedPaths} =~ ${{inputs.appName}}[\s]{0,1} ]]; then echo changed=True; else echo changed=False; fi >> "$GITHUB_OUTPUT"
