@@ -13,7 +13,7 @@ inputs:
 outputs:
   changed:
     description: "Bool: Source code changed"
-    value: ${{ steps.check-changed.outputs.changed }}
+    value: ${{ steps.pnpm-filter.outputs.changed }}
 
 runs:
   using: "composite"
@@ -25,6 +25,9 @@ runs:
     with:
       fetch-depth: 2
       token: ${{ inputs.PAT }}
-  - id: check-changed
+  - id: pnpm-filter
     shell: bash
-    run: if [[ $(pnpm --filter ...[${{ github.event.pull_request.base.sha }}] exec pwd) =~ ${{inputs.appName}}$ ]]; then echo changed=True; else echo changed=False; fi >> "$GITHUB_OUTPUT"
+    run: |
+      changedPaths=$(pnpm --filter ...[${{ github.event.pull_request.base.sha }}] exec pwd)
+      printf 'Project Changed:: %s\n' $changedPaths
+      if [[ ${changedPaths} =~ ${{inputs.appName}}[\s]{0,1} ]]; then echo changed=True; else echo changed=False; fi >> "$GITHUB_OUTPUT"
