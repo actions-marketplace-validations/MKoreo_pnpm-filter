@@ -1,11 +1,14 @@
-name: 'pnpm-filtering'
-description: 'Check app source changed using pnpm filter'
+name: 'pnpm-filter'
+description: 'Github Action to determine if app source code has changed in a pnpm monorepo.'
+branding:
+  icon: 'filter'
+  color: 'green'
 inputs:
   appName:
-    description: 'foldername of the pnpm project that must be checked'
+    description: 'Project folder name of the pnpm project that must be checked'
     required: true
   PAT:
-    description: "PAT to authenticate actions/checkout"
+    description: "Repository PAT to authenticate checkout"
     required: true
 outputs:
   changed:
